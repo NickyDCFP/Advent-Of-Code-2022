@@ -25,6 +25,7 @@ int main() {
         score += result_score[(this_move + (n - 1) - opp_move) % n];
         //score += (((this_move + (n - 1) - opp_move) % n + 2) % 3) * 3;
     }
+    f.close();
     auto prog_time = std::chrono::duration_cast<std::chrono::microseconds>(
                      std::chrono::high_resolution_clock::now() - start);
     std::cout << "The final score would be " << score << ".\n" <<
