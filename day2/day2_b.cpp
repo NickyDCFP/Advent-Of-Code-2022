@@ -24,6 +24,7 @@ int main() {
         this_move = (outcome_mapping[outcome] + opp_move) % n + 1;
         score += this_move;
     }
+    f.close();
     auto prog_time = std::chrono::duration_cast<std::chrono::microseconds>(
                      std::chrono::high_resolution_clock::now() - start);
     std::cout << "The final score would be " << score << ".\n" <<
