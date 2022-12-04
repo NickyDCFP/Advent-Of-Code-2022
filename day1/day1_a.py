@@ -11,5 +11,6 @@ for line in f:
         sum_cals = 0
     else:
         sum_cals += int(line)
+f.close()
 print(f"The elf with most calories carries {mx} calories.",
       f"Completed in {time.time() - start_time} seconds.")
