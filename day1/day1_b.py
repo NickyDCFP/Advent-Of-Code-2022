@@ -13,5 +13,7 @@ for line in f:
         sum_cals = 0
     else:
         sum_cals += int(line)
+f.close()
+
 print(f"Max {n} elf snacks total {sum(heapq.nlargest(n, lst))} calories.",
       f"Completed in {time.time() - start_time} seconds.")
