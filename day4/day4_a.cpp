@@ -4,20 +4,22 @@
 #include <string>
 #include <chrono>
 #include <climits>
+#include <regex>
 
 const std::string FILENAME = "day4_input.txt";
-
-std::vector<int> tokenize(const std::string& line);
 
 int main() {
     auto start = std::chrono::high_resolution_clock::now();
     std::ifstream f;
     f.open(FILENAME);
     std::string line;
-    std::vector<int> ranges;
+    std::vector<int> ranges(4, 0);
     int count = 0;
+    std::regex rgx("^(\\d+)-(\\d+),(\\d+)-(\\d+)$");
+    std::smatch sm;
     while(std::getline(f, line)) {
-        ranges = tokenize(line);
+        if(!std::regex_match(line, sm, rgx)) std::cerr << "Invalid input file.\n";
+        for(size_t i = 1; i < sm.size(); ++i) ranges[i - 1] = stoi(sm[i]);
         count += (ranges[0] <= ranges[2] && ranges[1] >= ranges[3]) ||
                  (ranges[2] <= ranges[0] && ranges[3] >= ranges[1]);
     }
@@ -26,24 +28,4 @@ int main() {
                    std::chrono::high_resolution_clock::now() - start);
     std::cout << "There are " << count << " overlapping pairs.\n" <<
                  "Computed in " << runtime.count() << " ms.";
-}
-
-
-std::vector<int> tokenize(const std::string& line) {
-    const std::string delim = ",-";
-
-    std::string token;
-    std::vector<int> tokenized;
-    std::vector<bool> isDelim(UCHAR_MAX, false);
-    for(char d: delim) isDelim[d] = true;
-
-    for(char t: line) {
-        if(isDelim[t]) {
-            if(!token.empty()) { tokenized.push_back(std::stoi(token)); token.clear(); }
-        }
-        else token.push_back(t);
-    }
-    if(!token.empty()) tokenized.push_back(std::stoi(token));
-
-    return tokenized;
 }
